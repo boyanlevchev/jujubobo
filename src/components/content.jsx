@@ -116,7 +116,7 @@ function Content(props) {
 
   const [surpriseEngaged, setSurpriseEngaged] = useState(false)
 
-  const [imgContClass, setImgContClass] = useState("image-container full-screen")
+  const [imgContClass, setImgContClass] = useState("image-container")
   const [pressClass, setPressClass] = useState("")
   const [dateHolderClass, setDateHolderClass] = useState("date-holder hidden")
   const [ctrlClass, setCtrlClass] = useState("ctrl-btn image")
@@ -235,7 +235,7 @@ function Content(props) {
         <div className={dateHolderClass}>
           {[...Array(13)].map((e, i) => {
             console.log("loop")
-            return <div key={i} className={`date bounce-in-top-${i+1}`} style={{backgroundImage: `url("${i+1}.png")`}}></div>
+            return <div key={i} className={`bounce-in-top-${i+1}`}><div className={`date vibrate-${i+1}`} style={{backgroundImage: `url("${i+1}.png")`}}></div></div>
           })}
         </div>
         <div className={"buttons"}>
