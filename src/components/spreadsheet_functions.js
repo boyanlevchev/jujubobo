@@ -11,7 +11,7 @@ const PRIVATE_KEY = process.env.REACT_APP_GOOGLE_SERVICE_PRIVATE_KEY;
 
 const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
-console.log(SPREADSHEET_ID)
+
 console.log(SHEET_ID)
 console.log(CLIENT_EMAIL)
 
