@@ -9,8 +9,8 @@ h1, h2, button, label, input {
 }
 
 .container {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,9 +22,7 @@ h1, h2, button, label, input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-left: 30px;
   transition: 0.8s;
-
 }
 
 .bigger-margin {
@@ -47,6 +45,7 @@ h1, h2, button, label, input {
   margin-left: 20px;
   opacity: 1;
   transition: 0.4s;
+  padding-left: 20px;
   transition-timing-function: ease-in;
   @include for-tablet-portrait-down {
     width: 100%;
@@ -116,6 +115,10 @@ h1, h2, button, label, input {
   font-size: 36px;
   margin-top: 0;
   color: white;
+
+  @include for-tablet-portrait-down {
+    width: 90%;
+  }
 }
 
 .form {
@@ -129,7 +132,7 @@ h1, h2, button, label, input {
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
 
   @include for-tablet-portrait-down {
-    width: 90%;
+    width: 80%;
   }
 }
 
