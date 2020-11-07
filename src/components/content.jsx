@@ -123,7 +123,6 @@ function Content(props) {
   const [sClass, setSClass] = useState("s-btn image")
   const [buttonClass, setButtonClass] = useState("std-btn hidden")
   const [contClass, setContClass] = useState("container")
-  const [surpriseClass, setSurpriseClass] = useState("hearts hidden")
   const [formClass, setFormClass] = useState("form hidden")
   const [thankYouClass, setThankYouClass] = useState("thank-you hidden")
 
@@ -150,7 +149,7 @@ function Content(props) {
     if (mouseIsDown || ctrIsDown || sIsDown) {
       setSClass("s-btn image");
       setCtrlClass("ctrl-btn image");
-      upControls.seek(upState.time = 0);
+      upControls.seek(0);
       upControls.play();
     }
     setMouseIsDown(false);
@@ -171,14 +170,13 @@ function Content(props) {
     if (mouse) {
       setMouseIsDown(true);
     }
-    downControls.seek(downState.time = 0);
+    downControls.seek(0);
     downControls.play();
   }
 
   if (ctrIsDown && sIsDown && !surpriseEngaged) {
     // setImgContClass("image-container");
     setPressClass("hidden")
-    setSurpriseClass("hearts");
     setButtonClass("std-btn");
 
     // setDateHolderClass("date-holder")
@@ -271,9 +269,6 @@ function Content(props) {
 
 
       <form action="" className={formClass}
-          onMouseDown={function(){
-            setContClass("container happy-cursor");
-          }}
           onSubmit={e => {handleFormSubmit(e)}}
          >
         <label htmlFor="firstname">First Name / Prenom:</label>
@@ -283,15 +278,15 @@ function Content(props) {
         <label htmlFor="email">Preferred email address / Adresse email prefere:</label>
         <input type="text" id="email" required></input>
 
-        <label htmlFor="address1">Address Street & house number / Addresse rue & numero:</label>
+        <label htmlFor="address1">Address: Street & house number / Rue & numero:</label>
         <input type="text" id="address1" required></input>
-        <label htmlFor="address2">Address line 2 (optional) / Complement d'adresse (optionelle)</label>
+        <label htmlFor="address2">Address: line 2 (optional) / Complement d'adresse (optionel):</label>
         <input type="text" id="address2"></input>
         <label htmlFor="address3">City / ville:</label>
         <input type="text" id="address3" required></input>
         <label htmlFor="address4">Country / pays:</label>
         <input type="text" id="address4" required></input>
-        <label htmlFor="address5">zip or post code / code postale:</label>
+        <label htmlFor="address5">zip or post code / code postal:</label>
         <input type="text" id="address5" required></input>
         <input type="submit" value="Confirm!" className={"confirm-button"}></input>
       </form>
@@ -309,6 +304,8 @@ function Content(props) {
           <a href={yahoo(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faYahoo}/>Yahoo</a>
         </div>
       </div>
+
+      <p className={"footer"}>Big thank you to Will (Good Things) for the drawing and the handwriting!</p>
     </div>
   );
 }
