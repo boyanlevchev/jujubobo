@@ -14,6 +14,8 @@ const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
 
 console.log(SHEET_ID)
 console.log(CLIENT_EMAIL)
+console.log(SPREADSHEET_ID)
+console.log(PRIVATE_KEY)
 
 const scrollToTop = () => {
   const c = document.documentElement.scrollTop || document.body.scrollTop;
