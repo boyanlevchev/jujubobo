@@ -219,7 +219,8 @@ function Content(props) {
          onMouseDown={function(){
           setContClass("container happy-cursor");
          }}
-         onMouseUp={function(){handleUp()}}>
+         onMouseUp={ e => handleUp()}
+         onTouchEnd={ e => handleUp()}>
       {clickDown}
       {clickUp}
 
@@ -248,10 +249,14 @@ function Content(props) {
         </div>
         <div className={bothButtonsClass}>
           <div className={ctrlClass}
-               onMouseDown={function(){if(!ctrIsDown){handleDown("ctr", true)}}}>
+               onTouchStart={ e => {e.preventDefault(); if(!ctrIsDown){handleDown("ctr", true);}}}
+               onTouchEnd={ e => e.preventDefault()}
+               onMouseDown={ e => {if(!ctrIsDown){handleDown("ctr", true)}}}>
           </div>
           <div className={sClass}
-               onMouseDown={function(){if(!sIsDown){handleDown("s", true)}}}>
+               onTouchStart={ e => {e.preventDefault(); if(!sIsDown){handleDown("s", true);}}}
+               onTouchEnd={ e => e.preventDefault()}
+               onMouseDown={ e => {if(!sIsDown){handleDown("s", true)}}}>
           </div>
         </div>
         <h1 className={pressClass}>Press both keys - Appuyer sur les deux touches</h1>

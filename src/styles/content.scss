@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: GoodThings;
     src: url("/GoodThings.otf") format("truetype");
@@ -23,16 +24,23 @@ h1, h2, button, label, input {
   align-items: center;
   padding-left: 30px;
   transition: 0.8s;
+
 }
 
 .bigger-margin {
   margin-top: 140px;
 }
 
-.happy-cursor {
-}
 
 .buttons {
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  -khtml-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+
   display: flex;
   width: 600px;
   justify-content: space-around;
@@ -40,6 +48,9 @@ h1, h2, button, label, input {
   opacity: 1;
   transition: 0.4s;
   transition-timing-function: ease-in;
+  @include for-tablet-portrait-down {
+    width: 100%;
+  }
 }
 
 .transparent {
@@ -62,8 +73,12 @@ h1, h2, button, label, input {
 .image {
   background-repeat: no-repeat;
   background-size: contain;
-  width: 300px;
   height: 300px;
+  width: 300px;
+  @include for-tablet-portrait-down {
+    height: 180px;
+    width: 180px;
+  }
 }
 
 .date-holder {
@@ -79,6 +94,10 @@ h1, h2, button, label, input {
   margin-bottom: 36px;
   filter: invert(1) brightness(100%) saturate(10000%);
   transition: 0.2s;
+  @include for-tablet-portrait-down {
+    height: 55px;
+    width: 30px;
+  }
 }
 
 .black-date {
@@ -86,6 +105,14 @@ h1, h2, button, label, input {
 }
 
 .press-class {
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  -khtml-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+
   font-size: 36px;
   margin-top: 0;
   color: white;
@@ -100,6 +127,10 @@ h1, h2, button, label, input {
   transition: 1s;
   transform: translateY(100px) scale(1.1);
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+
+  @include for-tablet-portrait-down {
+    width: 90%;
+  }
 }
 
 .opaqueify {
