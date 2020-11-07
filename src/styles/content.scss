@@ -13,14 +13,20 @@ h1, h2, button, label, input {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: url("/faces.png") 45 0, default;
 }
 
 .image-container {
-  margin-top: 20px;
+  margin-top: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-left: 30px;
+  transition: 0.8s;
+}
+
+.bigger-margin {
+  margin-top: 140px;
 }
 
 .happy-cursor {
@@ -28,8 +34,17 @@ h1, h2, button, label, input {
 
 .buttons {
   display: flex;
-  width: 400px;
+  width: 600px;
   justify-content: space-around;
+  margin-left: 20px;
+  opacity: 1;
+  transition: 0.4s;
+  transition-timing-function: ease-in;
+}
+
+.transparent {
+  transform: translateY(-80px) scale(0.2);
+  opacity: 0;
 }
 
 .ctrl-btn {
@@ -47,8 +62,8 @@ h1, h2, button, label, input {
 .image {
   background-repeat: no-repeat;
   background-size: contain;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
 }
 
 .date-holder {
@@ -58,10 +73,22 @@ h1, h2, button, label, input {
 .date {
   background-repeat: no-repeat;
   background-size: contain;
-  height: 50px;
-  width: 30px;
+  height: 65px;
+  width: 40px;
   object-fit: cover;
-  margin-bottom: 16px;
+  margin-bottom: 36px;
+  filter: invert(1) brightness(100%) saturate(10000%);
+  transition: 0.2s;
+}
+
+.black-date {
+  filter: invert(0) brightness(0) saturate(0);
+}
+
+.press-class {
+  font-size: 36px;
+  margin-top: 0;
+  color: white;
 }
 
 .form {
@@ -69,35 +96,57 @@ h1, h2, button, label, input {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  opacity: 0;
+  transition: 1s;
+  transform: translateY(100px) scale(1.1);
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+.opaqueify {
+  opacity: 1;
+  transform: translateY(0px) scale(1);
+}
+
+.transparentize {
+  opacity: 0;
+  transform: scale(2);
 }
 
 .form label {
+  cursor: url("/faces.png") 45 0, default;
   width: 100%;
   text-align: left;
+  color: white;
 }
 
 .form input {
+  cursor: url("/faces.png") 45 0, default;
   margin-bottom: 20px;
   width: 100%;
   height: 30px;
   border: 0;
-  border-bottom: 1px solid darkgray;
+  background: transparent;
+  border-bottom: 1px solid white;
+  font-size: 48px;
+  color: white;
 }
 
 .form input:last-child {
 
-  font-size: 30px;
+  font-size: 60px;
   background: transparent;
-  height: 50px;
-  width: 150px;
-  border: 1px solid darkgray;
+  width: 220px;
+  height: 80px;
+  padding-bottom: 10px;
+  border: 2px solid white;
   margin: auto;
-  margin-bottom: 50px;
+  margin: 20px auto 50px auto;
   transition: 0.2s;
 }
 
 .form input:last-child:hover {
-  border: 1px solid #ffc6ff;
+
+  border: 2px solid #ffc6ff;
   background-color: #ffc6ff;
   color: #0e0e0e;
 }
@@ -157,24 +206,39 @@ h1, h2, button, label, input {
 .thank-you {
   height: 100vh;
   width: 100vw;
-  background-color: white;
 
-  z-index: 100;
-  position: absolute;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
 }
+
 
 .hidden {
   display: none;
 }
 
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+}
 
 .linkStyles {
   text-decoration: none;
-  display: block;
-  color: #E42D2D;
-  font-size: 18px;
-  text-align: center;
-  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 36px;
+  margin: 8px;
+  width: 120px;
+  font-family: GoodThings;
+}
+
+.logo {
+  height: 40px;
 }
 
 .componentStyles {
@@ -474,6 +538,25 @@ h1, h2, button, label, input {
   100% {
     -webkit-transform: translate(0);
             transform: translate(0);
+  }
+}
+
+
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 45s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 

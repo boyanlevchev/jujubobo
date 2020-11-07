@@ -9,9 +9,17 @@ const SHEET_ID = process.env.REACT_APP_SHEET_ID;
 const CLIENT_EMAIL = process.env.REACT_APP_GOOGLE_CLIENT_EMAIL;
 const PRIVATE_KEY = process.env.REACT_APP_GOOGLE_SERVICE_PRIVATE_KEY;
 
-console.log(PRIVATE_KEY, "pk")
-
 const doc = new GoogleSpreadsheet(SPREADSHEET_ID);
+
+
+const scrollToTop = () => {
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 12);
+  }
+};
+
 
 export async function appendSpreadsheet(row, callback, showThanks, hideForm) {
   try {
@@ -22,10 +30,10 @@ export async function appendSpreadsheet(row, callback, showThanks, hideForm) {
     // loads document properties and worksheets
     await doc.loadInfo();
 
+
     const sheet = doc.sheetsById[SHEET_ID];
     sheet.addRow(row).then(result => {
       if (callback) { callback().then(res => {
-        console.log(res)
         res.forEach(retrievedRow => {
           if (retrievedRow["First Name"] === row["First Name"]
             && retrievedRow["Last Name"] === row["Last Name"]
@@ -37,13 +45,16 @@ export async function appendSpreadsheet(row, callback, showThanks, hideForm) {
             && retrievedRow["Address Zip Code"] === row["Address Zip Code"])
           {
             console.log("there's a match!")
-            hideForm("form hidden");
+            hideForm("form transparentize");
             showThanks("thank-you");
+            setTimeout(function(){
+              hideForm("form hidden");
+              scrollToTop();
+            }, 1000);
           };
         })
       }) }
     })
-    // console.log(result)
   } catch (e) {
     console.error('Error: ', e);
   }
@@ -66,17 +77,5 @@ export async function checkSpreadsheet() {
   }
 };
 
-// const row = {
-//       "First Name": "e.target[0].value",
-//       "Last Name": "e.target[1].value",
-//       "Email": "e.target[2].value",
-//       "Address Street and Number": "e.target[3].value",
-//       "Address Additional": "",
-//       "Address City": "e.target[5].value",
-//       "Address Country": "e.target[6].value",
-//       "Address Zip Code": "e.target[7].value"
-//     }
-
-// appendSpreadsheet(row, checkSpreadsheet, console.log, console.log)
 
 export default {appendSpreadsheet, checkSpreadsheet};

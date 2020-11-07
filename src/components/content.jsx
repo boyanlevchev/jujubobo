@@ -1,109 +1,107 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useAudio} from 'react-use';
 import { google, outlook, office365, yahoo, ics } from "calendar-link";
 import {appendSpreadsheet, checkSpreadsheet} from './spreadsheet_functions.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faApple, faGoogle, faYahoo  } from '@fortawesome/free-brands-svg-icons';
-import outlookSVG from '../outlook.svg';
-import officeSVG from '../365.svg';
+import outlookSVG from '../outlook.png';
+import officeSVG from '../365.png';
 
-function useKeyPress(keys = {}) {
+function useKeyPress(keys = {}, surpriseEngaged) {
   // State for keeping track of whether key is pressed
   const [ctrPressed, setCtrPressed] = useState(false);
   const [sPressed, setSPressed] = useState(false);
   const [cmdPressed, setCmdPressed] = useState(false);
+  const [timeout,setCustomTimeout] = useState();
+  const [startTime, setStartTime] = useState();
+  const [repeatStart, setRepeatStart] = useState(0);
+  const [repeatTime, setRepeatTime] = useState(0);
 
-  let timeout;
-  let startTime;
-  let repeatStart = 0;
-  let repeatTime = 0;
-  // If pressed key is our target key then set to true
-  function downHandler(e) {
-    // console.log(e)
-    // console.log(cmdPressed)
-    if (e.keyCode === keys.sKey) {
-      e.preventDefault()
-      setSPressed(true);
 
-      //This exists to create a fallback, since keyup doesn't get called if combined with Metakey (Mac command key)
-      if (e.repeat) {
-        // console.log("repeating")
-        repeatStart === 0 ? repeatTime = (Date.now() - startTime) : repeatTime = Date.now() - repeatStart
-        repeatStart = Date.now()
-        clearTimeout(timeout);
-        timeout = setTimeout(function(){
-          setSPressed(false);
+  const downHandler = useCallback((e) => {
+    if (!surpriseEngaged) {
+      if (e.keyCode === keys.sKey) {
+
+        e.preventDefault()
+        setSPressed(true);
+
+        // This exists to create a fallback, since keyup doesn't get called if combined with Metakey (Mac command key)
+        if (e.repeat) {
+
+          repeatStart === 0 ? setRepeatTime(Date.now() - startTime) : setRepeatTime(Date.now() - repeatStart)
+          setRepeatStart(Date.now())
           clearTimeout(timeout);
-          repeatTime = 0;
-          repeatStart = 0;
-        }, repeatTime + 50);
-      } else {
-        startTime = Date.now()
-        clearTimeout(timeout);
-        timeout = setTimeout(function(){
-          setSPressed(false);
+          setCustomTimeout(
+            setTimeout(function(){
+              setSPressed(false);
+              clearTimeout(timeout);
+              setRepeatTime(0);
+              setRepeatStart(0);
+            }, repeatTime + 50)
+          );
+        } else {
+          setStartTime(Date.now())
           clearTimeout(timeout);
-          repeatTime = 0;
-          repeatStart = 0;
-        }, 2000);
+          setCustomTimeout(
+            setTimeout(function(){
+              setSPressed(false);
+              clearTimeout(timeout);
+              setRepeatTime(0);
+              setRepeatStart(0);
+            }, 2000)
+          );
+        }
+
+        return false;
       }
+      if (e.keyCode === keys.ctrKey) {
+        setCtrPressed(true);
+      }
+      if (e.keyCode === keys.cmdKey) {
+        e.preventDefault();
 
-      return false;
+        setCmdPressed(true);
+        return false;
+      }
     }
-    if (e.keyCode === keys.ctrKey) {
-      setCtrPressed(true);
-    }
-    if (e.keyCode === keys.cmdKey) {
-      e.preventDefault();
-      // console.log("this one")
-      setCmdPressed(true);
-      // console.log(cmdPressed)
-      return false;
-    }
-  }
+  },[surpriseEngaged])
 
   // If released key is our target key then set to false
-  function upHandler(e) {
-    // console.log("lifted")
+  const upHandler = useCallback((e) => {
+
     if (e.keyCode === keys.sKey) {
-      e.preventDefault()
       setSPressed(false);
-      return false;
     }
     if (e.keyCode === keys.ctrKey) {
       setCtrPressed(false);
-      // if (!sPressed) {
-      //   setSPressed(false);
-      // }
+
     }
     if (e.keyCode === keys.cmdKey) {
-      e.preventDefault()
       setCmdPressed(false);
       if (!sPressed) {
         setSPressed(false);
       }
-      return false;
     }
-  };
+  },[surpriseEngaged]);
 
-  function cMenuHandler(e) {
+  const cMenuHandler = useCallback((e) => {
     setCtrPressed(false);
     setSPressed(false);
     setCmdPressed(false);
-  };
+  },[surpriseEngaged]);
 
-  // Add event listeners
   useEffect(() => {
-    window.addEventListener('keydown', e => {downHandler(e)});
-    window.addEventListener('keyup', e => {upHandler(e)});
-    window.addEventListener('contextmenu', e => {cMenuHandler(e)});
+    // If pressed key is our target key then set to true
+    window.addEventListener('keydown', downHandler);
+    window.addEventListener('keyup', upHandler);
+    window.addEventListener('contextmenu', cMenuHandler);
     // Remove event listeners on cleanup
     return () => {
-      window.removeEventListener('keydown', e => {downHandler(e)});
-      window.removeEventListener('keyup', e => {upHandler(e)});
-      window.removeEventListener('contextmenu', e => {cMenuHandler(e)});
+      window.removeEventListener('keydown', downHandler);
+      window.removeEventListener('keyup', upHandler);
+      window.removeEventListener('contextmenu', cMenuHandler);
     };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, [cmdPressed, ctrPressed, surpriseEngaged]);
 
   return {ctrPressed: ctrPressed, sPressed: sPressed, cmdPressed: cmdPressed};
 }
@@ -116,9 +114,11 @@ function Content(props) {
 
   const [surpriseEngaged, setSurpriseEngaged] = useState(false)
 
-  const [imgContClass, setImgContClass] = useState("image-container")
-  const [pressClass, setPressClass] = useState("")
-  const [dateHolderClass, setDateHolderClass] = useState("date-holder hidden")
+  const [imgContClass, setImgContClass] = useState("image-container bigger-margin")
+  const [pressClass, setPressClass] = useState("press-class")
+  const [dateHolderClass, setDateHolderClass] = useState("date-holder")
+  const [dateClass, setDateClass] = useState("date")
+  const [bothButtonsClass, setBothButtonsClass] = useState("buttons")
   const [ctrlClass, setCtrlClass] = useState("ctrl-btn image")
   const [sClass, setSClass] = useState("s-btn image")
   const [buttonClass, setButtonClass] = useState("std-btn hidden")
@@ -137,7 +137,7 @@ function Content(props) {
       end: '2021-08-29 13:00:00 0000'
     })
 
-  const keyPress = useKeyPress({sKey: 83, ctrKey: 17, cmdKey: 91})
+  const keyPress = useKeyPress({sKey: 83, ctrKey: 17, cmdKey: 91}, surpriseEngaged)
 
   const [clickDown, downState, downControls] = useAudio({
     src: '/click-down.mp3'
@@ -180,8 +180,20 @@ function Content(props) {
     setPressClass("hidden")
     setSurpriseClass("hearts");
     setButtonClass("std-btn");
-    setDateHolderClass("date-holder")
+
+    // setDateHolderClass("date-holder")
+    // setDateClass("date black-date");
+    setBothButtonsClass("buttons transparent");
+    setFormClass("form");
     setSurpriseEngaged(true);
+
+    setImgContClass("image-container");
+
+    setTimeout(function(){
+      setBothButtonsClass("hidden");
+      setFormClass("form opaqueify");
+
+    }, 400);
   }
 
   function handleFormSubmit(e) {
@@ -198,6 +210,9 @@ function Content(props) {
     }
     appendSpreadsheet(row, checkSpreadsheet, setThankYouClass, setFormClass);
   }
+
+
+
 
   return(
     <div className={contClass}
@@ -221,24 +236,17 @@ function Content(props) {
         handleUp("s", false)
       }
 
-      <div className={surpriseClass}>
-        {/*
-        <h1 className={"save-the-date"}>Save the date!
-        <br/> Seriously!!
-        <br/> Do not book anything else or you will regret it!!!
 
-        </h1>*/}
-      </div>
+
 
       <div className={imgContClass}>
-        <h1 className={pressClass}>Press</h1>
+        {/*<h1 className={pressClass}>Press</h1>*/}
         <div className={dateHolderClass}>
           {[...Array(13)].map((e, i) => {
-            console.log("loop")
-            return <div key={i} className={`bounce-in-top-${i+1}`}><div className={`date vibrate-${i+1}`} style={{backgroundImage: `url("${i+1}.png")`}}></div></div>
+            return <div key={i} className={`bounce-in-top-${i+1}`}><div className={`${dateClass} vibrate-${i+1}`} style={{backgroundImage: `url("${i+1}.png")`}}></div></div>
           })}
         </div>
-        <div className={"buttons"}>
+        <div className={bothButtonsClass}>
           <div className={ctrlClass}
                onMouseDown={function(){if(!ctrIsDown){handleDown("ctr", true)}}}>
           </div>
@@ -246,43 +254,55 @@ function Content(props) {
                onMouseDown={function(){if(!sIsDown){handleDown("s", true)}}}>
           </div>
         </div>
-          <button className={buttonClass} onClick={ function() {
-          setSurpriseClass("hearts hidden");
-          setFormClass("form");
-        }}>Click here to save</button>
+        <h1 className={pressClass}>Press both keys - Appuyer sur les deux touches</h1>
       </div>
+
+
+
+
+
+
+
+
+
       <form action="" className={formClass}
           onMouseDown={function(){
             setContClass("container happy-cursor");
           }}
           onSubmit={e => {handleFormSubmit(e)}}
          >
-        <label htmlFor="firstname">First Name:</label>
+        <label htmlFor="firstname">First Name / Prenom:</label>
         <input type="text" id="firstname" required></input>
-        <label htmlFor="lastname">Last Name:</label>
+        <label htmlFor="lastname">Last Name / Nom:</label>
         <input type="text" id="lastname" required></input>
-        <label htmlFor="email">Preferred email address:</label>
+        <label htmlFor="email">Preferred email address / Adresse email prefere:</label>
         <input type="text" id="email" required></input>
-        <label htmlFor="address1">Mailing Address - street and house number:</label>
+
+        <label htmlFor="address1">Address Street & house number / Addresse rue & numero:</label>
         <input type="text" id="address1" required></input>
-        <label htmlFor="address2">Mailing Address - additional (optional):</label>
+        <label htmlFor="address2">Address line 2 (optional) / Complement d'adresse (optionelle)</label>
         <input type="text" id="address2"></input>
-        <label htmlFor="address3">Mailing Address - city:</label>
+        <label htmlFor="address3">City / ville:</label>
         <input type="text" id="address3" required></input>
-        <label htmlFor="address4">Mailing Address - country:</label>
+        <label htmlFor="address4">Country / pays:</label>
         <input type="text" id="address4" required></input>
-        <label htmlFor="address5">Mailing Address - zip or post code:</label>
+        <label htmlFor="address5">zip or post code / code postale:</label>
         <input type="text" id="address5" required></input>
         <input type="submit" value="Confirm!" className={"confirm-button"}></input>
       </form>
+
+
+
       <div className={thankYouClass}>
-        <h1>Thank you! Your information has been saved!</h1>
-        <h2>Click one of the links below to save the date to your calendar of choice!</h2>
-        <a href={google(event)} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faGoogle}/>Google</a>
-        <a href={ics(event)} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faApple}/>Apple</a>
-        <a href={outlook(event)} target="_blank" rel="noopener noreferrer"><img src={outlookSVG} className="outlook-logo" alt="outlook logo"/>Outlook</a>
-        <a href={office365(event)} target="_blank" rel="noopener noreferrer"><img src={officeSVG} className="office-logo" alt="office logo"/>Office 365</a>
-        <a href={yahoo(event)} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faYahoo}/>Yahoo</a>
+        <h1>Thank you! Your information has been saved and we will be in touch soon!</h1>
+        <h2>Click one of the links below to save the date to your favorite calendar!</h2>
+        <div className={"links"}>
+          <a href={google(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faGoogle}/>Google</a>
+          <a href={ics(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faApple}/>Apple</a>
+          <a href={outlook(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><img src={outlookSVG} className="logo" alt="outlook logo"/>Outlook</a>
+          <a href={office365(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><img src={officeSVG} className="logo" alt="office logo"/>Office 365</a>
+          <a href={yahoo(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faYahoo}/>Yahoo</a>
+        </div>
       </div>
     </div>
   );
