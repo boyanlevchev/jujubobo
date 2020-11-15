@@ -317,9 +317,8 @@ h1, h2, p, button, label, input {
   color: white;
   font-size: 24px;
   width: 100%;
-  & p {
-    margin-left: auto;
-    width: 200px;
+  @include for-tablet-portrait-down {
+    width: 88%;
   }
 }
 

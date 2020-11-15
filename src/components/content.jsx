@@ -271,7 +271,7 @@ function Content(props) {
                onMouseDown={ e => {if(!sIsDown){handleDown("s", true)}}}>
           </div>
         </div>
-        <p className={pressClass}>Press both keys - Appuyer sur les deux touches</p>
+        <p className={pressClass}>Press both keys <br/> - <br/>  Appuyer sur les deux touches</p>
       </div>
 
 
@@ -287,7 +287,7 @@ function Content(props) {
         <input type="text" id="firstname" required></input>
         <label htmlFor="lastname">Last Name / Nom:</label>
         <input type="text" id="lastname" required></input>
-        <label htmlFor="email">Preferred email address / Adresse email prefere:</label>
+        <label htmlFor="email">Preferred email address / Adresse email preferee:</label>
         <input type="text" id="email" required></input>
 
         <label htmlFor="address1">Address: Street & house number / Rue & numero:</label>
@@ -327,8 +327,8 @@ function Content(props) {
 
 
       <div className={thankYouClass}>
-        <p className={"first-p"}>Thank you! Your information has been saved and we will be in touch soon!</p>
-        <p className={"second-p"}>Click one of the links below to save the date to your favorite calendar!</p>
+        <p className={"first-p"}>Thank you! Your information has been saved and we will be in touch soon! <br/>Merci! Votre information a ete enregistree. Nous vous ecrirons bientot!</p>
+        <p className={"second-p"}>Click one of the links below to save the date to your favorite calendar!<br/>Choisissez votre calendrier et cliquez sur l'icon en dessous pour y enregistrer la date!</p>
         <div className={"links"}>
           <a href={google(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faGoogle}/>Google</a>
           <a href={ics(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faApple}/>Apple</a>
@@ -338,7 +338,7 @@ function Content(props) {
         </div>
       </div>
 
-      <div className={"footer"}><p>Big thank you to Will Vincent for the drawing and the handwriting!</p></div>
+      <div className={"footer"}><p>Big thank you to Will Vincent for the drawing and the handwriting! <br/> Merci a Guillaume Vincent pour le dessin et son ecriture!</p></div>
     </div>
   );
 }
