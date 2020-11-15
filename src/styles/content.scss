@@ -4,7 +4,7 @@
     src: url("/GoodThings.otf") format("truetype");
 }
 
-h1, h2, button, label, input {
+h1, h2, p, button, label, input {
   font-family: GoodThings;
 }
 
@@ -265,10 +265,10 @@ h1, h2, button, label, input {
   text-decoration: none;
   @include for-tablet-portrait-down {
     width: 88%;
-    & h1 {
+    & .first-p {
       font-size: 34px;
     }
-    & h2 {
+    & .second-p {
       font-size: 26px;
     }
   }

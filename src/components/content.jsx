@@ -271,7 +271,7 @@ function Content(props) {
                onMouseDown={ e => {if(!sIsDown){handleDown("s", true)}}}>
           </div>
         </div>
-        <h1 className={pressClass}>Press both keys - Appuyer sur les deux touches</h1>
+        <p className={pressClass}>Press both keys - Appuyer sur les deux touches</p>
       </div>
 
 
@@ -327,8 +327,8 @@ function Content(props) {
 
 
       <div className={thankYouClass}>
-        <h1>Thank you! Your information has been saved and we will be in touch soon!</h1>
-        <h2>Click one of the links below to save the date to your favorite calendar!</h2>
+        <p className={"first-p"}>Thank you! Your information has been saved and we will be in touch soon!</p>
+        <p className={"second-p"}>Click one of the links below to save the date to your favorite calendar!</p>
         <div className={"links"}>
           <a href={google(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faGoogle}/>Google</a>
           <a href={ics(event)} target="_blank" rel="noopener noreferrer" className={"linkStyles"}><FontAwesomeIcon icon={faApple}/>Apple</a>
