@@ -1,9 +1,11 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import useSound from 'use-sound';
+import {motion} from 'framer-motion';
 
+import Spinner from '../spinner.svg'
 
 import { google, outlook, office365, yahoo, ics } from "calendar-link";
-import {appendSpreadsheet, checkSpreadsheet} from './spreadsheet_functions.js';
+import {appendSpreadsheet, checkSpreadsheet, scrollToTop} from './spreadsheet_functions.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faApple, faGoogle, faYahoo  } from '@fortawesome/free-brands-svg-icons';
 import outlookSVG from '../outlook.png';
@@ -109,12 +111,25 @@ function useKeyPress(keys = {}, surpriseEngaged) {
 }
 
 
+
+
+const variants = {
+  open: { scale: [1, 1, 0.9, 0.7, 0],
+          rotate: [0, 0, 180, 1000, 3000],
+          borderRadius: ["0", "50%", "50%", "50%", "50%"],
+          width: [220, 80, 80, 80, 80]},
+  closed: { },
+}
+
+
 function Content(props) {
   const [mouseIsDown, setMouseIsDown] = useState(false)
   const [ctrIsDown, setCtrIsDown] = useState(false)
   const [sIsDown, setSIsDown] = useState(false)
 
   const [surpriseEngaged, setSurpriseEngaged] = useState(false)
+
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const [imgContClass, setImgContClass] = useState("image-container bigger-margin")
   const [pressClass, setPressClass] = useState("press-class")
@@ -184,7 +199,7 @@ function Content(props) {
     setSurpriseEngaged(true);
 
     setImgContClass("image-container");
-
+    scrollToTop();
     setTimeout(function(){
       setBothButtonsClass("hidden");
       setFormClass("form opaqueify");
@@ -205,6 +220,7 @@ function Content(props) {
       "Address Zip Code": e.target[7].value
     }
     appendSpreadsheet(row, checkSpreadsheet, setThankYouClass, setFormClass);
+    setFormSubmitted(true);
   }
 
 
@@ -264,8 +280,6 @@ function Content(props) {
 
 
 
-
-
       <form action="" className={formClass}
           onSubmit={e => {handleFormSubmit(e)}}
          >
@@ -286,7 +300,28 @@ function Content(props) {
         <input type="text" id="address4" required></input>
         <label htmlFor="address5">zip or post code / code postal:</label>
         <input type="text" id="address5" required></input>
-        <input type="submit" value="Confirm!" className={"confirm-button"}></input>
+
+        {formSubmitted &&
+          <div className={"spinner-div"}>
+            <motion.img
+              initial={{scale: 0, opacity: 0}}
+              animate={{scale: 1, opacity: 1}}
+              transition={{ type: 'spring', bounce: 0.6, duration: 1, delay: 1.5}}
+              src={Spinner}
+              alt="Loading spinner - wedding!"
+              className={"spinner"}/>
+          </div>
+        }
+
+        <motion.input
+          animate={formSubmitted ? "open" : "closed"}
+          variants={variants}
+          transition={{ duration: 1.5,  ease: [1,.12,1,.9]}}
+          type="submit"
+          value="Confirm!"
+          className={"confirm-button"}>
+        </motion.input>
+
       </form>
 
 

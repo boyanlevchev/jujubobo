@@ -125,10 +125,12 @@ h1, h2, button, label, input {
 }
 
 .form {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  margin-bottom: 100px;
   opacity: 0;
   transition: 1s;
   transform: translateY(100px) scale(1.1);
@@ -185,8 +187,12 @@ h1, h2, button, label, input {
   height: 80px;
   padding-bottom: 10px;
   border: 2px solid white;
-  margin: 20px auto 100px auto;
+  margin: 20px auto 0 auto;
   transition: 0.2s;
+  &:focus{
+    box-shadow: 0;
+    outline: none;
+  }
 
   @include for-tablet-portrait-down {
     font-size: 40px;
@@ -198,6 +204,19 @@ h1, h2, button, label, input {
   border: 2px solid #ffc6ff;
   background-color: #ffc6ff;
   color: #0e0e0e;
+}
+
+.spinner-div {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  bottom: 0;
+}
+
+.spinner {
+  height: 80px;
+
 }
 
 .form label {
@@ -260,6 +279,7 @@ h1, h2, button, label, input {
 }
 
 .linkStyles {
+  cursor: url("/faces.png") 45 0, default;
   text-decoration: none;
   display: flex;
   flex-direction: column;

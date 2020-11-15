@@ -23,7 +23,7 @@ const doc = new GoogleSpreadsheet("1dIZEx5ifKIZPgmKQ7DMpebTNOX1UhN6acCl7yZZ4xLI"
 // console.log(PRIVATE_KEY)
 
 
-const scrollToTop = () => {
+export const scrollToTop = () => {
   const c = document.documentElement.scrollTop || document.body.scrollTop;
   if (c > 0) {
     window.requestAnimationFrame(scrollToTop);
