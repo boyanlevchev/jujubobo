@@ -232,7 +232,7 @@ function Content(props) {
           setContClass("container happy-cursor");
          }}
          onMouseUp={ e => handleUp()}
-         onTouchEnd={ e => {e.preventDefault(); handleUp();}}>
+         onTouchEnd={ e => {handleUp();}}>
       {clickDown}
       {clickUp}
 
