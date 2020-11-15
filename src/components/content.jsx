@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {useAudio} from 'react-use';
+import useSound from 'use-sound';
+
+
 import { google, outlook, office365, yahoo, ics } from "calendar-link";
 import {appendSpreadsheet, checkSpreadsheet} from './spreadsheet_functions.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -138,19 +140,20 @@ function Content(props) {
 
   const keyPress = useKeyPress({sKey: 83, ctrKey: 17, cmdKey: 91}, surpriseEngaged)
 
-  const [clickDown, downState, downControls] = useAudio({
-    src: '/click-down.mp3'
-  });
-  const [clickUp, upState, upControls] = useAudio({
-    src: '/click-up.mp3'
-  });
+  const [clickDown] = useSound(
+    '/click-up.mp3',
+    { volume: 0.25 }
+  );
+  const [clickUp] = useSound(
+    '/click-down.mp3',
+    { volume: 0.25 }
+  );
 
   function handleUp() {
     if (mouseIsDown || ctrIsDown || sIsDown) {
       setSClass("s-btn image");
       setCtrlClass("ctrl-btn image");
-      upControls.seek(0);
-      upControls.play();
+      clickUp();
     }
     setMouseIsDown(false);
     setContClass("container");
@@ -170,17 +173,12 @@ function Content(props) {
     if (mouse) {
       setMouseIsDown(true);
     }
-    downControls.seek(0);
-    downControls.play();
+    clickDown();
   }
 
   if (ctrIsDown && sIsDown && !surpriseEngaged) {
-    // setImgContClass("image-container");
     setPressClass("hidden")
     setButtonClass("std-btn");
-
-    // setDateHolderClass("date-holder")
-    // setDateClass("date black-date");
     setBothButtonsClass("buttons transparent");
     setFormClass("form");
     setSurpriseEngaged(true);
@@ -218,7 +216,7 @@ function Content(props) {
           setContClass("container happy-cursor");
          }}
          onMouseUp={ e => handleUp()}
-         onTouchEnd={ e => handleUp()}>
+         onTouchEnd={ e => {e.preventDefault(); handleUp();}}>
       {clickDown}
       {clickUp}
 
@@ -239,7 +237,7 @@ function Content(props) {
 
 
       <div className={imgContClass}>
-        {/*<h1 className={pressClass}>Press</h1>*/}
+
         <div className={dateHolderClass}>
           {[...Array(13)].map((e, i) => {
             return <div key={i} className={`bounce-in-top-${i+1}`}><div className={`${dateClass} vibrate-${i+1}`} style={{backgroundImage: `url("${i+1}.png")`}}></div></div>
@@ -247,12 +245,12 @@ function Content(props) {
         </div>
         <div className={bothButtonsClass}>
           <div className={ctrlClass}
-               onTouchStart={ e => {e.preventDefault(); if(!ctrIsDown){handleDown("ctr", true);}}}
+               onTouchStart={ e => {if(!ctrIsDown){handleDown("ctr", true);}}}
                onTouchEnd={ e => e.preventDefault()}
                onMouseDown={ e => {if(!ctrIsDown){handleDown("ctr", true)}}}>
           </div>
           <div className={sClass}
-               onTouchStart={ e => {e.preventDefault(); if(!sIsDown){handleDown("s", true);}}}
+               onTouchStart={ e => {if(!sIsDown){handleDown("s", true);}}}
                onTouchEnd={ e => e.preventDefault()}
                onMouseDown={ e => {if(!sIsDown){handleDown("s", true)}}}>
           </div>
@@ -305,7 +303,7 @@ function Content(props) {
         </div>
       </div>
 
-      <p className={"footer"}>Big thank you to Will (Good Things) for the drawing and the handwriting!</p>
+      <div className={"footer"}><p>Big thank you to Will Vincent for the drawing and the handwriting!</p></div>
     </div>
   );
 }

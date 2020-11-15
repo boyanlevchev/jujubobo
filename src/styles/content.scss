@@ -16,6 +16,10 @@ h1, h2, button, label, input {
   flex-direction: column;
   align-items: center;
   cursor: url("/faces.png") 45 0, default;
+  @include for-tablet-portrait-down {
+    width: 90vw;
+    min-height: 90vh;
+  }
 }
 
 .image-container {
@@ -49,7 +53,7 @@ h1, h2, button, label, input {
   padding-left: 20px;
   transition-timing-function: ease-in;
   @include for-tablet-portrait-down {
-    width: 100%;
+    width: 80%;
   }
 }
 
@@ -76,8 +80,8 @@ h1, h2, button, label, input {
   height: 300px;
   width: 300px;
   @include for-tablet-portrait-down {
-    height: 180px;
-    width: 180px;
+    height: 140px;
+    width: 140px;
   }
 }
 
@@ -112,6 +116,7 @@ h1, h2, button, label, input {
 
   font-size: 36px;
   margin-top: 0;
+  margin-bottom: 100px;
   color: white;
 
   @include for-tablet-portrait-down {
@@ -231,9 +236,6 @@ h1, h2, button, label, input {
   color: white;
 }
 
-.full-screen {
-
-}
 
 .thank-you {
   height: 100vh;
@@ -274,13 +276,22 @@ h1, h2, button, label, input {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  right: 10px;
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  -khtml-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+
   font-family: GoodThings;
   color: white;
   font-size: 24px;
-  width: 200px;
+  width: 100%;
+  & p {
+    margin-left: auto;
+    width: 200px;
+  }
 }
 
 .bounce-in-top-1 {

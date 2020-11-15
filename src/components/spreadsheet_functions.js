@@ -17,10 +17,10 @@ const PRIVATE_KEY = process.env.REACT_APP_GOOGLE_SERVICE_PRIVATE_KEY;
 const doc = new GoogleSpreadsheet("1dIZEx5ifKIZPgmKQ7DMpebTNOX1UhN6acCl7yZZ4xLI");
 
 
-console.log(SHEET_ID)
-console.log(CLIENT_EMAIL)
-console.log(SPREADSHEET_ID)
-console.log(PRIVATE_KEY)
+// console.log(SHEET_ID)
+// console.log(CLIENT_EMAIL)
+// console.log(SPREADSHEET_ID)
+// console.log(PRIVATE_KEY)
 
 
 const scrollToTop = () => {
