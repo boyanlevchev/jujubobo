@@ -58,9 +58,10 @@ export async function appendSpreadsheet(row, callback, showThanks, hideForm) {
             console.log("there's a match!")
             hideForm("form transparentize");
             showThanks("thank-you");
+            scrollToTop();
             setTimeout(function(){
               hideForm("form hidden");
-              scrollToTop();
+
             }, 1000);
           };
         })
