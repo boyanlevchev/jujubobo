@@ -30,3 +30,7 @@
 @mixin for-big-desktop-up {
   @media (min-width: 1800px) { @content; }
 }
+
+@mixin for-small-laptop-height {
+  @media (min-height: 650px) { @content; }
+}

@@ -15,7 +15,7 @@ h1, h2, p, button, label, input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: url("/faces.png") 45 0, default;
+  // cursor: url("/faces.png") 45 0, default;
   @include for-tablet-portrait-down {
     width: 90vw;
     min-height: 90vh;
@@ -30,8 +30,10 @@ h1, h2, p, button, label, input {
   transition: 0.8s;
 }
 
-.bigger-margin {
-  margin-top: 140px;
+@include for-small-laptop-height {
+  .bigger-margin {
+    margin-top: 140px;
+  }
 }
 
 
@@ -152,7 +154,7 @@ h1, h2, p, button, label, input {
 }
 
 .form label {
-  cursor: url("/faces.png") 45 0, default;
+  // cursor: url("/faces.png") 45 0, default;
   width: 100%;
   text-align: left;
   color: white;
@@ -162,7 +164,7 @@ h1, h2, p, button, label, input {
 }
 
 .form input {
-  cursor: url("/faces.png") 45 0, default;
+  // cursor: url("/faces.png") 45 0, default;
   margin-bottom: 20px;
   width: 100%;
   height: 30px;
@@ -260,7 +262,7 @@ h1, h2, p, button, label, input {
   height: 100vh;
   width: 100vw;
 
-  font-size: 24px;
+  font-size: 34px;
   color: white;
   text-decoration: none;
   @include for-tablet-portrait-down {
@@ -288,7 +290,7 @@ h1, h2, p, button, label, input {
 }
 
 .linkStyles {
-  cursor: url("/faces.png") 45 0, default;
+  // cursor: url("/faces.png") 45 0, default;
   text-decoration: none;
   display: flex;
   flex-direction: column;
