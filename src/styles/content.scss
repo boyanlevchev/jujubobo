@@ -1,11 +1,20 @@
 
+
 @font-face {
     font-family: GoodThings;
     src: url("/GoodThings.otf") format("truetype");
 }
 
+@font-face {
+    font-family: Sunshine;
+    src: url("/Sunshine2.ttf") format("truetype");
+}
+
 h1, h2, p, button, label, input {
-  font-family: GoodThings;
+  font-family: GoodThings,Sunshine;
+  text-transform: uppercase;
+
+  overflow-y: visible;
 }
 
 .container {
@@ -152,6 +161,21 @@ h1, h2, p, button, label, input {
 .transparentize {
   opacity: 0;
   transform: scale(2);
+}
+
+.form div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.form p {
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  width: 480px;
+  margin: 0;
 }
 
 .form label {
@@ -308,7 +332,8 @@ h1, h2, p, button, label, input {
   font-size: 36px;
   margin: 8px;
   width: 120px;
-  font-family: GoodThings;
+  font-family: GoodThings, Sunshine;
+  text-transform: uppercase;
 }
 
 .logo {
@@ -324,7 +349,8 @@ h1, h2, p, button, label, input {
   user-select:none;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
 
-  font-family: GoodThings;
+  font-family: GoodThings, Sunshine;
+  text-transform: uppercase;
   color: white;
   font-size: 24px;
   width: 100%;

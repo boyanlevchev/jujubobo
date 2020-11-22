@@ -283,6 +283,13 @@ function Content(props) {
       <form action="" className={formClass}
           onSubmit={e => {handleFormSubmit(e)}}
          >
+        <div>
+          <p>Please fill in your details so we can send you an invitation by mail come Spring - this is just a save the date!
+          <br/>
+          -
+          <br/>
+          Merci de remplir avec vos informations afin que nous puissions vous envoyer une invitation par courrier au printemps - ceci n’est que pour réservez la date!</p>
+        </div>
         <label htmlFor="firstname">First Name / Prenom:</label>
         <input type="text" id="firstname" required></input>
         <label htmlFor="lastname">Last Name / Nom:</label>
