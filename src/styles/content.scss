@@ -123,6 +123,7 @@ h1, h2, p, button, label, input {
 
   @include for-tablet-portrait-down {
     width: 90%;
+    margin-bottom: 60px;
   }
 }
 
@@ -263,15 +264,23 @@ h1, h2, p, button, label, input {
   width: 100vw;
 
   font-size: 34px;
+
   color: white;
   text-decoration: none;
+
+  .first-p {
+    font-size: 34px;
+  }
+  .second-p {
+    font-size: 26px;
+  }
   @include for-tablet-portrait-down {
     width: 88%;
     & .first-p {
-      font-size: 34px;
+      font-size: 28px;
     }
     & .second-p {
-      font-size: 26px;
+      font-size: 22px;
     }
   }
 }
@@ -321,6 +330,7 @@ h1, h2, p, button, label, input {
   width: 100%;
   @include for-tablet-portrait-down {
     width: 88%;
+    font-size: 20px;
   }
 }
 

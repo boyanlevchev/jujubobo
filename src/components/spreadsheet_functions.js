@@ -1,4 +1,4 @@
-
+import emailjs from 'emailjs-com';
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
 require('dotenv').config();
@@ -17,11 +17,22 @@ const PRIVATE_KEY = process.env.REACT_APP_GOOGLE_SERVICE_PRIVATE_KEY;
 const doc = new GoogleSpreadsheet("1dIZEx5ifKIZPgmKQ7DMpebTNOX1UhN6acCl7yZZ4xLI");
 
 
-// console.log(SHEET_ID)
-// console.log(CLIENT_EMAIL)
-// console.log(SPREADSHEET_ID)
-// console.log(PRIVATE_KEY)
+function sendEmail(email) {
+  var templateParams = {
+    recipient_email: email
+  };
 
+  emailjs.send(
+    'jujubobo-wedding',
+    'save-the-date-responder',
+    templateParams,
+    'user_9C2T6jQ730P9dI4MEAjvE')
+    .then((result) => {
+        console.log(result.text);
+    }, (error) => {
+        console.log(error.text);
+    });
+}
 
 export const scrollToTop = () => {
   const c = document.documentElement.scrollTop || document.body.scrollTop;
@@ -61,7 +72,7 @@ export async function appendSpreadsheet(row, callback, showThanks, hideForm) {
             scrollToTop();
             setTimeout(function(){
               hideForm("form hidden");
-
+              sendEmail(retrievedRow["Email"])
             }, 1000);
           };
         })
